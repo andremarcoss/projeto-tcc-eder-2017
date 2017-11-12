@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/Layout.xhtml">
+	
+	<ui:define name="corpo">
+		<h:form >
+			<h:inputHidden value="#{disciplinaBean.disciplina.codigo}" />
+			<p:panel header="Cadastro de Disciplinas" >			
+				<p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
+					<p:outputLabel value="Descrição: " for="descricao" />
+					<p:inputText id="descricao" value="#{disciplinaBean.disciplina.descricao}" required="true" 
+						requiredMessage="A descrição é obrigatória." 
+						validatorMessage="A descrição ter entre 3 a 10 caracteres." >
+						<f:validateLength minimum="3" maximum="50" />
+					</p:inputText>
+					<p:outputLabel for="professor" id="labelProfessor" value="Professor(a): " />
+						<p:selectOneMenu id="professor" required="true" 
+							requiredMessage="O professor é obrigatório." value="#{disciplinaBean.disciplina.professor}">
+							<f:selectItems value="#{disciplinaBean.professores}" itemValue="disciplinaBean.disciplina.professor" />
+						</p:selectOneMenu>
+				</p:panelGrid>
+				<br />
+				<p:commandButton icon="ui-icon-disk" value="Salvar" action="#{disciplinaBean.salvar}"
+					ajax="false" update="@form" />
+				<p:spacer width="10"/>
+				<p:commandButton value="Voltar" action="/restrito/disciplina_lista" ajax="false" immediate="true" />
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

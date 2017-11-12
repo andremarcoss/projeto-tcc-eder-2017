@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/Layout.xhtml">
+	
+	<ui:define name="corpo">
+		<h:form>
+			<p:panel header="Cursos">
+				<p:dataTable value="#{cursoBean.lista}" var="curso"
+					rows="8" paginator="true" paginatorPosition="bottom" >
+					<p:column headerText="Nome">
+						<h:outputText value="#{curso.nome}" />
+					</p:column>
+					<p:column headerText="Duração (anos)">
+						<h:outputText value="#{curso.duracao}" />
+					</p:column>
+					<p:column headerText="Data de Cadastro">
+						<h:outputText value="#{curso.dataCriacao}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Descrição">
+						<h:outputText value="#{curso.descricao}" />
+					</p:column>
+					<p:column headerText="Ações" style="width: 100px; text-align: center"
+						rendered="#{request.isUserInRole('ROLE_ADMINISTRADOR')}">
+						<p:commandButton action="#{cursoBean.editar}" icon="ui-icon-pencil" title="Editar">
+							<f:setPropertyActionListener value="#{curso}"
+								target="#{cursoBean.curso}" />
+						</p:commandButton>
+						<ui:remove>
+						<p:spacer style="width: 5px" />
+						<p:commandButton action="#{cursoBean.excluir}" title="Excluir" icon="ui-icon-trash" update="@form"
+							onclick="if (!confirm('Confirma a exclusão do curso #{curso.nome}?')) return false;" >
+							<f:setPropertyActionListener value="#{curso}"
+								target="#{cursoBean.curso}" />
+						</p:commandButton>
+						</ui:remove>
+					</p:column>
+				</p:dataTable>
+				<br />
+				<p:commandLink action="#{cursoBean.novo}" title="Cadastrar Curso" ajax="false"
+					rendered="#{request.isUserInRole('ROLE_ADMINISTRADOR')}" >
+						<p:graphicImage library="imagens" name="icon-plus.png"
+						style="border:0" />
+				</p:commandLink>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,39 @@
+body {
+	margin: 0;
+}
+
+.menu {
+	width: 20%;
+	height: 100px;
+	float: left;
+	background-color: blue;
+}
+
+.anuncio {
+	width: 20%;
+	height: 100px;
+	float: left;
+	background-color: green;
+}
+
+.conteudo {
+	width: 60%;
+	height: 100%;
+	float: left;
+	background-color: red;
+}
+
+@media ( max-width : 900px) {
+	.menu, .conteudo {
+		width: 50%;
+	}
+	.anuncio {
+		width: 100%;
+	}
+}
+
+@media ( max-width : 400px) {
+	.menu, .anuncio, .conteudo {
+		width: 100%;
+	}
+}

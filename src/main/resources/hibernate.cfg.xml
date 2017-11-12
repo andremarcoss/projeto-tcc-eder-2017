@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+    	<property name="dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+    	<property name="connection.datasource">java:/comp/env/jdbc/TccDB</property>
+    	<property name="current_session_context_class">thread</property>
+    	<property name="hibernate.hbm2ddl.auto">update</property>
+    	
+    	<mapping class="com.eder.tcc.modelo.usuario.Usuario" />
+    	<mapping class="com.eder.tcc.modelo.aluno.Aluno" />
+    	<mapping class="com.eder.tcc.modelo.professor.Professor" />
+    	<mapping class="com.eder.tcc.modelo.email.Mensagem" />
+    	<mapping class="com.eder.tcc.modelo.turma.Turma" />
+    	<mapping class="com.eder.tcc.modelo.curso.Curso" />
+    	<mapping class="com.eder.tcc.modelo.disciplina.Disciplina" />    	
+    	<mapping class="com.eder.tcc.modelo.nota.Nota" />
+    	
+    </session-factory>
+</hibernate-configuration>

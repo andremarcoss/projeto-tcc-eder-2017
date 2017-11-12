@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/Layout-login.xhtml">
+	<ui:define name="corpo">
+		<h:panelGroup rendered="#{!empty param.login_error}">
+			<span style="font-color: red">Erro ao efetuar login.<br /> Usuário e/ou senha incorretos.</span>
+			<br />
+			<br />
+		</h:panelGroup>
+		<form id="login" method="post" name="login" 
+			action="#{request.contextPath}/j_spring_security_check">
+			<div class="aw-simple-panel">
+				<h:graphicImage library="layout" name="logo-login.png" />
+				<div class="aw-simple-panel__message">Faça login no portal.
+				</div>
+				<div class="aw-simple-panel__box">
+
+					<div class="form-group  has-feedback">
+						<div class="input-icon icon-username"></div>
+						<input type="text" class="form-control  input-lg"
+							placeholder="Usuário" autofocus="autofocus" name="j_username" id="j_username" />
+					</div>
+
+					<div class="form-group  has-feedback">
+						<input type="password" class="form-control  input-lg"
+							placeholder="Senha" name="j_password" id="j_password" />
+					</div>
+					<div class="form-group  has-feedback">
+						<input type="checkbox" name="_spring_security_remembr_me" />
+						<label>Logar automaticamente</label>						
+					</div>
+					<div class="form-group">
+						<input class="btn  btn-primary  btn-lg  aw-btn-full-width" type="submit" value="Entrar" />
+					</div>
+				</div>
+
+			</div>
+			<script>
+				document.getElementById("login").j_username.value="#{SPRING_SECURITY_LAST_USERNAME}";
+			</script>
+			
+		</form>
+	</ui:define>
+</ui:composition>

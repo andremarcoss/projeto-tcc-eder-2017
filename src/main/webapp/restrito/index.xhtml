@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/Layout.xhtml">
+	
+	<ui:define name="corpo" >
+	
+	<p:panel header="Area Administrativa" rendered="#{request.isUserInRole('ROLE_ADMINISTRADOR')}">
+		<h:panelGroup>
+		<h:form>
+			Usuários adminitradores tem permissões de acesso total ao sistema.<br /><br /><br />
+		</h:form>
+	</h:panelGroup>	
+	</p:panel>
+	<p:spacer height="5" />
+	<p:panel header="Material de apoio" rendered="#{request.isUserInRole('ROLE_PROFESSOR')}">
+	<h:panelGroup >
+		<h:form >
+			<p:growl showDetail="true" autoUpdate="true" />
+			<h:panelGrid columns="2">
+				
+				<h:outputText value="Arquivo:" />
+				<h:outputText value="" />
+				<h:outputText value="" />
+				<p:fileUpload id="fileUpload"
+					fileUploadListener="#{materialBean.carregar}"
+					update="dataTableMaterial1" label="Selecionar arquivo" uploadLabel="Enviar"
+					cancelLabel="Cancelar" allowTypes="/(\.|\/)(pdf|gif|jpe?g|png)$/"
+					invalidFileMessage="São permitidos somente arquivos (pdf, jpeg, jpg e png)"
+					sizeLimit="2048000"
+					invalidSizeMessage="O tamanho máximo permitido é de 2MB."
+					fileLimit="10"
+					fileLimitMessage="Só é possível escolher 5 arquivos por vez."
+					multiple="true" auto="false" 
+					onstart="console.log('Iniciando envio de arquivo')"
+					onerror="console.log('Erro na requisição de envio')"
+					oncomplete="console.log('Envio concluído')"
+					/>			
+				
+			</h:panelGrid>
+
+			<p:spacer height="20px" />
+
+			<p:dataTable value="#{materialBean.arquivos}" var="arquivo"
+				id="dataTableMaterial1" emptyMessage="Nenhum material disponível." >
+				<f:facet name="header">
+			        Arquivos
+			    </f:facet>
+				<p:column width="200">
+					<p:commandButton value="Baixar" ajax="false"
+						actionListener="#{materialBean.baixar(arquivo)}"
+						icon="ui-icon-arrowthick-1-s">
+						<p:fileDownload value="#{materialBean.streamedContent}" />
+					</p:commandButton>
+				</p:column>
+
+				<p:column headerText="Arquivo" style="text-align: left;">
+					<h:outputText value="#{arquivo.name}" />
+				</p:column>
+				
+				<p:column headerText="Remoção" style="text-align: left;">
+					<p:commandButton title="Excluir" 
+						onclick="if (!confirm('Confirma a exclusão do arquivo #{arquivo.name}?')) return false;"
+							actionListener="#{materialBean.remover(arquivo)}"
+							icon="ui-icon-trash" action="/restrito/index?faces-redirect=true" />
+							<!-- implementar o refresh da tela -->
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</h:panelGroup>
+	</p:panel>
+	<h:panelGroup rendered="#{request.isUserInRole('ROLE_ALUNO')}" >
+		<h:form>
+			<p:panel header="Material de apoio" >
+				<p:dataTable value="#{materialBean.arquivos}" var="arquivo"
+					id="dataTableMaterial2" emptyMessage="Nenhum material disponível." >
+					<p:column width="200">
+						<p:commandButton value="Baixar" ajax="false"
+							actionListener="#{materialBean.baixar(arquivo)}"
+							icon="ui-icon-arrowthick-1-s">
+							<p:fileDownload value="#{materialBean.streamedContent}" />
+						</p:commandButton>
+					</p:column>
+	
+					<p:column headerText="Nome" style="text-align: left;">
+						<h:outputText value="#{arquivo.name}" />
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+	</h:panelGroup>
+	</ui:define>
+</ui:composition>

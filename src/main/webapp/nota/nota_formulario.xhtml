@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/Layout.xhtml">
+	
+	<ui:define name="corpo">
+		<h:form >
+			<h:inputHidden value="#{notaBean.nota.codigo}" />
+			<p:panel header="Cadastro de Notas" >			
+				<p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
+					<p:outputLabel value="Descrição: " for="descricao" />
+					<p:inputText id="descricao" value="#{notaBean.nota.descricao}" required="true" 
+						requiredMessage="A descrição é obrigatória." 
+						validatorMessage="A descrição ter entre 3 a 10 caracteres." >
+						<f:validateLength minimum="3" maximum="50" />
+					</p:inputText>
+					<p:outputLabel for="disciplina" id="labelDisciplina" value="Disciplina: " />
+					<p:selectOneMenu id="disciplina" required="true" 
+						requiredMessage="A disciplina é obrigatório." value="#{notaBean.nota.disciplina}">
+						<f:selectItem itemLabel="Selecione uma disciplina..." />
+						<f:selectItems value="#{notaBean.disciplinas}" itemValue="notaBean.nota.disciplina"/>
+					</p:selectOneMenu>
+					<p:outputLabel for="aluno" id="labelAluno" value="Aluno(a): " />
+					<p:selectOneMenu id="aluno" required="true" 
+						requiredMessage="O aluno é obrigatório." value="#{notaBean.nota.aluno}">
+						<f:selectItem itemLabel="Selecione o aluno..." />
+						<f:selectItems value="#{notaBean.alunos}" itemValue="notaBean.nota.aluno" />
+					</p:selectOneMenu>
+					<p:outputLabel value="Nota" for="nota"/>
+					<p:spinner id="nota" value="#{notaBean.nota.valor}" min="0" stepFactor="0.1" max="10" size="1" />
+					<h:outputLabel value="Data da Avaliação: " for="data"/>
+					<p:calendar id="data" value="#{notaBean.nota.data}" pattern="dd/MM/yyyy" locale="pt_BR"
+						mask="true" required="true" requiredMessage="A data é obrigatória." />
+				</p:panelGrid>
+				<br />
+				<p:commandButton icon="ui-icon-disk" value="Salvar" action="#{notaBean.salvar}"
+					ajax="false" update="@form" />
+				<p:spacer width="10"/>
+				<p:commandButton value="Voltar" action="/restrito/nota_lista" ajax="false" immediate="true" />
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

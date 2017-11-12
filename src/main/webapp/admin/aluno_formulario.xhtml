@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/Layout.xhtml">
+	
+	<ui:define name="corpo">
+		<h:form >
+			<h:inputHidden value="#{alunoBean.aluno.codigo}" />
+			<p:panel header="Cadastro de Alunos" >							
+				<p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank">
+					<p:outputLabel for="turma" id="labelTurma" value="Turma: " />
+						<p:selectOneMenu id="turma" required="true" 
+							requiredMessage="A turma é obrigatório." value="#{alunoBean.aluno.turma}">
+							<f:selectItem itemLabel="Selecione uma turma..." />
+							<f:selectItems value="#{alunoBean.turmas}" itemValue="alunoBean.aluno.turma" />
+						</p:selectOneMenu>								
+				</p:panelGrid>
+				<p:panel header="Dados pessoais" >
+					<p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-3" layout="grid" styleClass="ui-panelgrid-blank">
+						<p:outputLabel value="Nome: " for="nome" />
+						<p:inputText id="nome" value="#{alunoBean.aluno.nome}" required="true" 
+							requiredMessage="O nome do aluno é obrigatório." style="width: 250px"
+							validatorMessage="O nome deve ter entre 3 a 10 caracteres." >
+							<f:validateLength minimum="3" maximum="50" />
+						</p:inputText>	
+						<p:outputLabel value="CPF: " for="cpf" />
+						<p:inputMask mask="999.999.999-99" id="cpf" value="#{alunoBean.aluno.cpf}"
+							required="true" requiredMessage="O CPF do aluno é obrigatório." style="width: 110px" />
+						<ui:remove>
+						<!-- <p:inputText id="input-cpf" value="#{alunoBean.aluno.cpf}" 
+							required="true" requiredMessage="O CPF do aluno é obrigatório." /> -->
+						</ui:remove>
+						<p:outputLabel value="E-mail:" for="email" />
+						<p:inputText id="email" value="#{alunoBean.aluno.email}" style="width: 250px"
+							required="true" requiredMessage="O E-mail do aluno é obrigatório." />
+						<p:outputLabel value="Data Nascimento:" />
+						<p:calendar value="#{alunoBean.aluno.dataNascimento}" locale="pt_BR"
+							pattern="dd/MM/yyyy" style="width: 50px" mask="true" />
+						<p:outputLabel value="RA:" for="ra"/>
+						<p:inputText id="ra" value="#{alunoBean.aluno.ra}" style="width: 70px"
+							required="true" requiredMessage="O RA do aluno é obrigatório." />
+						<p:outputLabel value="Telefone:" />
+						<p:inputText id="input-telefone" value="#{alunoBean.aluno.telefone}" style="width: 100px" />
+						<p:outputLabel value="Celular:" for="celular" />
+						<p:inputText id="celular" value="#{alunoBean.aluno.celular}" style="width: 100px"
+							required="true" requiredMessage="O Celular do aluno é obrigatório." />
+						<ui:remove>	
+						<p:outputLabel value="Login:" />
+						<p:inputText id="input-login" value="#{alunoBean.aluno.login}"
+							required="true" requiredMessage="O Login do aluno é obrigatório." />
+						<p:outputLabel value="Senha:" />
+						<p:password id="input-senha" value="#{alunoBean.aluno.senha}"
+							required="true" requiredMessage="A Senha do aluno é obrigatório." />
+						</ui:remove>	
+						<p:outputLabel value="Data de Cadastro:" for="data-cadastro" />
+						<p:calendar id="data-cadastro" value="#{alunoBean.aluno.dataCadastro}" locale="pt_BR" 
+							pattern="dd/MM/yyyy" mask="true" required="true" requiredMessage="A data de cadastro é obrigatória." />
+					</p:panelGrid>
+				</p:panel>
+				<p:spacer height="20" />
+				<p:panel header="Endereço" >
+					<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2, ui-grid-col-1" styleClass="ui-panelgrid-blank">
+						<p:outputLabel value="Cidade:" for="cidade" />
+						<p:inputText id="cidade" value="#{alunoBean.aluno.cidade}"
+							required="true" requiredMessage="A Cidade é obrigatório." />
+						<p:outputLabel value="Logradouro:" for="logradouro" />
+						<p:inputText id="logradouro"
+							value="#{alunoBean.aluno.logradouro}" required="true" style="width: 300px"
+							requiredMessage="O Logradouro é obrigatório." />
+						<p:outputLabel value="Número:" for="numero" />
+						<p:inputText id="numero" value="#{alunoBean.aluno.numero}" style="width: 80px"
+							required="true" requiredMessage="O Número é obrigatório." />
+						<p:outputLabel value="CEP" for="cep" />
+						<p:inputText id="cep" value="#{alunoBean.aluno.cep}" style="width: 100px"
+							required="true" requiredMessage="O CEP é obrigatório." />
+						<p:outputLabel value="UF:" for="uf" />
+						<p:inputText id="uf" value="#{alunoBean.aluno.uf}" style="width: 31px"
+							required="true" requiredMessage="O UF é obrigatório." maxlength="2"
+							validatorMessage="UF deve ter 2 caracteres." >
+							<f:validateLength minimum="2" maximum="2" />
+						</p:inputText>
+					</p:panelGrid>
+				</p:panel>
+				<br />
+				<p:commandButton icon="ui-icon-disk" value="Salvar" action="#{alunoBean.salvar}"
+					ajax="false" update="@form" />
+				<p:spacer width="10"/>
+				<p:commandButton value="Voltar" action="/restrito/aluno_lista" ajax="false" immediate="true" />
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

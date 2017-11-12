@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/Layout.xhtml">
+	
+	<ui:define name="corpo">
+		<h:form >
+			<h:inputHidden value="#{turmaBean.turma.codigo}" />
+			<p:panel header="Cadastro de Turmas" >			
+				<p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank">
+					<p:outputLabel value="Descrição:" for="descricao" />
+					<p:inputText id="descricao" value="#{turmaBean.turma.descricao}" required="true" 
+						requiredMessage="A descrição da turma é obrigatório." 
+						validatorMessage="A descrição deve ter entre 3 a 10 caracteres." >
+						<f:validateLength minimum="3" maximum="50" />
+					</p:inputText>
+					<p:outputLabel for="curso" id="labelCurso" value="Cursos: " />
+						<p:selectOneMenu id="curso" required="true" 
+							requiredMessage="O curso é obrigatório." value="#{turmaBean.turma.curso}">
+							<f:selectItems value="#{turmaBean.cursos}" itemValue="turmaBean.turma.curso" />
+						</p:selectOneMenu>
+					<p:message for="curso" />
+				</p:panelGrid>
+				<br />
+				<p:commandButton icon="ui-icon-disk" value="Alterar" action="#{turmaBean.atualizar}"
+					ajax="false" update="@form" />
+				<p:spacer width="10"/>
+				<p:commandButton value="Voltar" action="/restrito/turma_lista" ajax="false" immediate="true" />
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

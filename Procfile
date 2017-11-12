@@ -1,0 +1,1 @@
+web: java $JAVA_OPTS -jar target/tcc-web-eder.jar --server.port=$PORT $JAR_OPTS

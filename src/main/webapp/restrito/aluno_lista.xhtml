@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/Layout.xhtml">
+	
+	<ui:define name="corpo">
+		<h:form>
+			<p:panel header="Alunos">
+				<p:dataTable value="#{alunoBean.lista}" var="aluno"
+					rows="8" paginator="true" paginatorPosition="bottom" emptyMessage="Nennhum aluno encontrado." >
+					<p:column headerText="Nome" sortBy="#{aluno.nome}">
+						<h:outputText value="#{aluno.nome}" />
+					</p:column>
+					<p:column headerText="RA">
+						<h:outputText value="#{aluno.ra}" />
+					</p:column>
+					<p:column headerText="Turma">
+					<h:outputText value="#{aluno.turma.descricao}" />
+					</p:column>
+					<p:column headerText="Curso">
+						<h:outputText value="#{aluno.turma.curso.descricao}" />
+					</p:column>
+					<p:column headerText="E-mail" style="width: 200px;" sortBy="#{aluno.email}">
+						<h:outputText value="#{aluno.email}" />
+					</p:column>
+					<p:column headerText="Celular">
+						<h:outputText value="#{aluno.celular}" />
+					</p:column>
+					<p:column headerText="Ações" style="width: 100px; text-align: center"
+						rendered="#{request.isUserInRole('ROLE_ADMINISTRADOR')}">
+						<p:commandButton action="#{alunoBean.editar}" icon="ui-icon-pencil" title="Editar">
+							<f:setPropertyActionListener value="#{aluno}"
+									target="#{alunoBean.aluno}" />
+						</p:commandButton>
+						<ui:remove>
+						<p:spacer style="width: 5px" />
+							<p:commandButton action="#{alunoBean.excluir}" title="Excluir" icon="ui-icon-trash" update="@form"
+							onclick="if (!confirm('Confirma a exclusão do aluno #{aluno.nome}?')) return false;" >
+							<f:setPropertyActionListener value="#{aluno}"
+								target="#{alunoBean.aluno}" />
+						</p:commandButton>
+						</ui:remove>
+					</p:column>
+				</p:dataTable>
+				<br />
+				<p:commandLink action="#{alunoBean.novo}" title="Cadastrar Aluno" ajax="false"
+					rendered="#{request.isUserInRole('ROLE_ADMINISTRADOR')}" >
+						<p:graphicImage library="imagens" name="icon-plus.png"
+						style="border:0" />
+				</p:commandLink>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

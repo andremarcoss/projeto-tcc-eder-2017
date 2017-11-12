@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/Layout.xhtml">
+	
+	<ui:define name="corpo">
+		<h:form >
+			<h:inputHidden value="#{cursoBean.curso.codigo}" />
+			<p:panel header="Cadastro de Cursos" >			
+				<p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
+					<p:outputLabel value="Nome:" for="nome" />
+					<p:inputText id="nome" value="#{cursoBean.curso.nome}" required="true" 
+						requiredMessage="O nome do curso é obrigatório." 
+						validatorMessage="O nome deve ter entre 3 a 10 caracteres." >
+						<f:validateLength minimum="3" maximum="50" />
+					</p:inputText>
+					<p:outputLabel value="Descrição:" for="descricao"/>
+					<p:inputTextarea id="descricao" value="#{cursoBean.curso.descricao}" cols="40" rows="3"
+						required="true" requiredMessage="A descrição do curso é obrigatória." />
+					<h:outputLabel value="Duração:" />
+					<p:spinner value="#{cursoBean.curso.duracao}" min="1" stepFactor="0.5" max="10" size="1" />
+					<h:outputLabel value="Data de Cadastro" />
+					<p:calendar value="#{cursoBean.curso.dataCriacao}" locale="pt_BR" pattern="dd/MM/yyyy" />
+				</p:panelGrid>
+				<br />
+				<p:commandButton icon="ui-icon-disk" value="Salvar" action="#{cursoBean.salvar}"
+					ajax="false" update="@form" />
+				<p:spacer width="10"/>
+				<p:commandButton value="Voltar" action="/restrito/curso_lista" ajax="false" immediate="true" />
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

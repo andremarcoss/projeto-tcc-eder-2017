@@ -1,0 +1,37 @@
+<!DOCTYPE html> 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/Layout.xhtml">
+	
+	<ui:define name="corpo">
+	
+	<p:panel header="Envio de e-mail">
+ 		<h:form>		
+		<div class="ui-fluid">			
+ 			<p:panelGrid columns="2" columnClasses="ui-grid-col-4, ui-grid-col-4"
+				layout="grid" styleClass="ui-panelgrid-blank">				
+			
+			 	<p:outputLabel value="Destinátario:" for="email"/>
+			 	<p:spacer width="20" />
+				<p:inputText id="email" label="Destinátario" value="#{emailBean.mensagem.destinatario}" size="50"
+					maxlength="50" required="true" validatorMessage="e-Mail inválido" style="width: 400px" >
+						<f:validateRegex pattern="[a-zA-Z0-9\-\_\.]+@[a-zA-Z0-9\-\_\.]+" />
+				</p:inputText>
+			
+				 <p:outputLabel value="Título: " for="titulo"/>
+				 <p:inputText id="titulo" value="#{emailBean.mensagem.titulo}" style="width: 200px" required="true"
+					requiredMessage="O título é obrigatório." />
+				 <p:outputLabel value="Mensagem: " />
+				 <p:inputTextarea value="#{emailBean.mensagem.mensagem}" cols="63" rows="5" />
+			 </p:panelGrid>
+			
+		</div>
+			 <p:commandButton value="Enviar" image="ui-icon-mail-closed" title="Enviar" ajax="false"
+				 action="#{emailBean.enviaEmail}" update="@form" />
+ 			</h:form> 	
+	 </p:panel>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/Layout.xhtml">
+	
+	<ui:define name="corpo">
+		<h:form id="formPrincipal">
+		<p:panel header="Usuários">
+		<p:dataTable value="#{usuarioBean.lista}" reflow="true"
+			var="usuario" emptyMessage="Nenhum usuário cadastrado." rows="8"
+				paginator="true" paginatorPosition="bottom" 
+				style="margin-top: 10px" id="usuarios-table">
+			<p:column style="width: 38px;" >
+				<h:commandLink action="#{usuarioBean.ativar}" title="#{usuario.ativo ? 'Ativo' : 'Inativo'}">
+					<h:graphicImage library="imagens" name="usuario_ativo_#{usuario.ativo}.png" style="border:0" />
+					<f:setPropertyActionListener value="#{usuario}" target="#{usuarioBean.usuario}" />
+				</h:commandLink>
+			</p:column>
+			<p:column headerText="Código" style="width: 100px; text-align: center">
+				<h:outputText value="#{usuario.codigo}" />
+			</p:column>
+			<p:column headerText="Login" style="text-align: left">
+				<h:outputText value="#{usuario.login}" />
+			</p:column>
+			<p:column headerText="Nome" style="text-align: left">
+				<h:outputText value="#{usuario.nome}" />
+			</p:column>
+			<p:column headerText="Email" style="text-align: left">
+				<h:outputText value="#{usuario.email}" />
+			</p:column>
+			<p:column headerText="Permissões" style="width: 100px; text-align: center">
+				<h:commandLink action="#{usuarioBean.atribuiPermissao(usuario, 'ROLE_ADMINISTRADOR')}" title="Administrador">
+					<h:graphicImage library="imagens" 
+						name="ROLE_ADMINISTRADOR_#{usuario.permissao.contains('ROLE_ADMINISTRADOR')}.png" style="border:0" />
+				</h:commandLink>
+				<p:spacer style="width: 10px" />
+				<h:commandLink action="#{usuarioBean.atribuiPermissao(usuario, 'ROLE_PROFESSOR')}" title="Professor">
+					<h:graphicImage library="imagens" 
+						name="ROLE_PROFESSOR_#{usuario.permissao.contains('ROLE_PROFESSOR')}.png" style="border:0" />
+				</h:commandLink>
+				<p:spacer style="width: 10px" />
+				<h:commandLink action="#{usuarioBean.atribuiPermissao(usuario, 'ROLE_ALUNO')}" title="Aluno">
+					<h:graphicImage library="imagens" 
+						name="ROLE_ALUNO_#{usuario.permissao.contains('ROLE_ALUNO')}.png" style="border:0" />
+				</h:commandLink>
+			</p:column>
+			<p:column headerText="Ações" style="width: 100px; text-align: center">
+				<p:commandButton action="#{usuarioBean.editar}"
+					 icon="ui-icon-pencil" title="Editar">
+					<f:setPropertyActionListener value="#{usuario}" target="#{usuarioBean.usuario}" />
+				</p:commandButton>
+				<p:spacer style="width: 5px" />
+				<p:commandButton action="#{usuarioBean.excluir}" title="Excluir" icon="ui-icon-trash" update="@form"
+					onclick="if(!confirm('Confirma a exclusão do usuário #{usuario.login}?\nRecomentdado NÃO EXCLUIR o usuário e SIM DESATIVAR.')) return false;" >
+					<f:setPropertyActionListener value="#{usuario}" target="#{usuarioBean.usuario}" />
+				</p:commandButton>
+			</p:column>
+			
+		</p:dataTable>
+		<br />
+		<p:commandLink action="#{usuarioBean.novo}" ajax="false" title="Cadastrar Usuário"  >
+			<p:graphicImage library="imagens" name="icon-plus.png"
+						style="border:0" />
+		</p:commandLink>
+		</p:panel>
+	</h:form>
+	</ui:define>
+</ui:composition>

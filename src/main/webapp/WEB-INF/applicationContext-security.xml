@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/security
+		http://www.springframework.org/schema/security/spring-security.xsd">
+		
+	<http auto-config="true">
+		<intercept-url pattern="/admin/**" access="ROLE_ADMINISTRADOR" />
+		<intercept-url pattern="/nota/**" access="ROLE_PROFESSOR" />
+		<intercept-url pattern="/restrito/**" access="ROLE_ADMINISTRADOR" />
+		<intercept-url pattern="/restrito/**" access="ROLE_USUARIO" />
+		<intercept-url pattern="/restrito/professor/**" access="ROLE_PROFESSOR" />
+		<intercept-url pattern="/restrito/aluno/**" access="ROLE_PROFESSOR" />
+		<intercept-url pattern="/restrito/aluno/**" access="ROLE_ALUNO" />
+		<form-login login-page="/publico/login.jsf"
+			always-use-default-target="true"
+			default-target-url="/restrito/index.jsf"
+			authentication-failure-url="/publico/login.jsf?login_error=1" />
+			
+		<logout invalidate-session="true" logout-success-url="/publico/login.jsf"
+			logout-url="/j_spring_security_logout" delete-cookies="JSESSIONID" />
+		
+		<remember-me token-validity-seconds="1209600" />
+		
+		<session-management invalid-session-url="/publico/login.jsf"
+		    session-fixation-protection="migrateSession"> 
+        	<concurrency-control 
+        	max-sessions="100"
+        	expired-url="/publico/login.jsf"
+        	error-if-maximum-exceeded="true" /> 
+    	</session-management>
+	</http>
+	<authentication-manager>
+		<authentication-provider>
+		<password-encoder hash="plaintext" />
+			<jdbc-user-service data-source-ref="tccDataSource"
+				authorities-by-username-query="SELECT u.login, p.permissao
+																	FROM Usuario u, usuario_permissao p 
+																	WHERE u.codigo = p.usuario AND u.login = ?"
+				users-by-username-query="SELECT login, senha, ativo FROM Usuario WHERE login = ?" />
+		</authentication-provider>
+	</authentication-manager>
+</beans:beans>

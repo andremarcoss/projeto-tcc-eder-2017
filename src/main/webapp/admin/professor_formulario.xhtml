@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/Layout.xhtml">
+	
+	<ui:define name="corpo">
+		<h:form >
+			<h:inputHidden value="#{professorBean.professor.codigo}" />
+			<p:panel header="Cadastro de Professores" >							
+				<p:panel header="Dados pessoais" >
+				<div class="ui-fluid">
+					<p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
+						<p:outputLabel value="Nome: " for="nome" />
+						<p:inputText id="nome" value="#{professorBean.professor.nome}" required="true" 
+							requiredMessage="O nome do aluno é obrigatório." 
+							validatorMessage="O nome deve ter entre 3 a 10 caracteres." style="width: 250px" >
+							<f:validateLength minimum="3" maximum="50" />
+						</p:inputText>	
+						<p:outputLabel value="CPF:" for="cpf" />
+						<p:inputMask mask="999.999.999-99" id="cpf" value="#{professorBean.professor.cpf}"
+							required="true" requiredMessage="O CPF do professor é obrigatório." style="width: 110px" />
+						<p:outputLabel value="E-mail:" for="email"/>
+						<p:inputText id="email" value="#{professorBean.professor.email}" style="width: 250px"
+							required="true" requiredMessage="O E-mail do professor é obrigatório." />
+						<p:outputLabel value="Data Nascimento:" />
+						<p:calendar value="#{professorBean.professor.dataNascimento}" locale="pt_BR"
+							pattern="dd/MM/yyyy" />
+						<p:outputLabel value="Telefone:" />
+						<p:inputText id="telefone" value="#{professorBean.professor.telefone}" style="width: 100px" />
+						<p:outputLabel value="Celular:" />
+						<p:inputText id="input-celular" value="#{professorBean.professor.celular}"
+							required="true" requiredMessage="O Celular do professor é obrigatório." />
+						<ui:remove>	
+						<h:outputLabel value="Login:" />
+						<p:inputText id="login" value="#{alunoBean.aluno.login}"
+							required="true" requiredMessage="O Login do aluno é obrigatório." />
+						<h:outputLabel value="Senha:" />
+						<p:password id="senha" value="#{alunoBean.aluno.senha}"
+							required="true" requiredMessage="A Senha do aluno é obrigatório." />
+						</ui:remove>	
+						<p:outputLabel value="Data de Cadastro:" for="data-cadastro" />
+						<p:calendar id="data-cadastro" value="#{professorBean.professor.dataCadastro}" locale="pt_BR"
+							pattern="dd/MM/yyyy" mask="true" required="true" requiredMessage="A data de cadastro é obrigatória." />
+					</p:panelGrid>
+					</div>
+				</p:panel>
+				<p:spacer height="20" />
+				<p:panel header="Endereço" >
+					<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2, ui-grid-col-1" styleClass="ui-panelgrid-blank">
+						<p:outputLabel value="Cidade:" for="cidade" />
+						<p:inputText id="cidade" value="#{professorBean.professor.cidade}"
+							required="true" requiredMessage="A Cidade é obrigatório." />
+						<p:outputLabel value="Logradouro:" for="logradouro" />
+						<p:inputText id="logradouro" style="width: 300px"
+							value="#{professorBean.professor.logradouro}" required="true"
+							requiredMessage="O Logradouro é obrigatório." />
+						<p:outputLabel value="Número:" for="numero" />
+						<p:inputText id="numero" value="#{professorBean.professor.numero}" style="width: 80px"
+							required="true" requiredMessage="O Número é obrigatório." />
+						<p:outputLabel value="CEP" for="cep"/>
+						<p:inputText id="cep" value="#{professorBean.professor.cep}" style="width: 100px"
+							required="true" requiredMessage="O CEP é obrigatório." />
+						<p:outputLabel value="UF:" for="uf" />
+						<p:inputText id="uf" value="#{professorBean.professor.uf}" style="width: 31px"
+							required="true" requiredMessage="O UF é obrigatório." maxlength="2"
+							validatorMessage="UF deve ter 2 caracteres." >
+							<f:validateLength minimum="2" maximum="2" />
+						</p:inputText>
+					</p:panelGrid>
+				</p:panel>
+				<br />
+				<p:commandButton icon="ui-icon-disk" value="Salvar" action="#{professorBean.salvar}"
+					ajax="false" update="@form" />
+				<p:spacer width="10"/>
+				<p:commandButton value="Voltar" action="/restrito/professor_lista" ajax="false" immediate="true" />
+			</p:panel>
+		</h:form> 
+</ui:define>
+</ui:composition>
