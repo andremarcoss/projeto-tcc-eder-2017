@@ -13,9 +13,9 @@ import com.eder.tcc.modelo.email.Mensagem;
 public class EmailUtil {
 
 	private static final String HOSTNAME = "smtp.gmail.com";
-	private static final String USERNAME = "edersousa748@gmail.com";
-	private static final String PASSWORD = "54518_dzord_eder";
-	private static final String EMAIL_ORIGEM = "edersousa748@gmail.com";
+	private static final String USERNAME = "portal.academico.eder2017";
+	private static final String PASSWORD = "54518_eder";
+	private static final String EMAIL_ORIGEM = "portal.academico.eder2017@gmail.com";
 	
 	public static Email conectaEmail() throws EmailException{
 		Email email = new SimpleEmail();
