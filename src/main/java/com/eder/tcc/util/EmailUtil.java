@@ -14,7 +14,7 @@ public class EmailUtil {
 
 	private static final String HOSTNAME = "smtp.gmail.com";
 	private static final String USERNAME = "portal.academico.eder2017";
-	private static final String PASSWORD = "54518_eder";
+	private static final String PASSWORD = "*********";
 	private static final String EMAIL_ORIGEM = "portal.academico.eder2017@gmail.com";
 	
 	public static Email conectaEmail() throws EmailException{
@@ -40,7 +40,7 @@ public class EmailUtil {
 		String resposta = email.send();
 		
 		FacesContext.getCurrentInstance().addMessage(null, 
-				new FacesMessage(FacesMessage.SEVERITY_INFO, "Email enviado para: " + mensagem.getDestinatario(), "Informação"));
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Email enviado para: " + mensagem.getDestinatario(), "InformaÃ§Ã£o"));
 	}
 
 }
